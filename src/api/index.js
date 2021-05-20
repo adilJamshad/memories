@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://my-memories-crud-mern.herokuapp.com/' });
+const API = axios.create({ baseURL: 'http://localhost:5000/' });
 
 API.interceptors.request.use((req) => {
   if(localStorage.getItem('profile')){
@@ -12,11 +12,14 @@ API.interceptors.request.use((req) => {
 
 
 //post APIs
-export const fetchPosts = () => API.get('/posts');
+export const fetchPost = (id) => API.get(`/posts/${id}`)
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 export const createPost = (newPost) => API.post('/posts', newPost);
 export const updatePost = (id, postData) => API.patch(`/posts/${id}`, postData);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
-export const likePost = (id) => API.patch(`/posts/${id}/likepost`)
+export const likePost = (id) => API.patch(`/posts/${id}/likepost`);
+export const fetchPostBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`)
+
 
 //auth APIs
 export const signIn = (formData) => API.post('/user/signin', formData);

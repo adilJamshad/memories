@@ -9,14 +9,16 @@ import { useSelector } from "react-redux";
 const Posts = ({ setCurrentId }) => {
     const classes = useStyles();
 
-    const posts = useSelector((state) => state.posts) //it takes a call back funtion, which gets posts from global store.
+    const { posts, isLoading } = useSelector((state) => state.posts) //it takes a call back funtion, which gets posts from global store.
     //how do we know that it is posts, check reducer/index.
+
+    if(!posts.length && !isLoading) return 'No Posts';
     return(
-            !posts.length ? <CircularProgress /> :(
+            isLoading ? <CircularProgress /> :(
                 <Grid className={classes.container} container alignItems="stretch" spacing={3}>
                     {
                         posts.map((post) => (
-                            <Grid key={post._id} item xs={12} s={6}>
+                            <Grid key={post._id} item xs={12} s={12} md={6} lg={3}>
                                 <Post  post={post} setCurrentId={setCurrentId} />
                             </Grid>
                         ))
